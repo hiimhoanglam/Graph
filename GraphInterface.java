@@ -11,8 +11,8 @@ public interface GraphInterface<E,V> {
     Iterator<Vertex<V>> vertices();
     int numEdges();
     Iterator<Edge<E>> edges();
-    Edge<E> getEdge(Vertex<V> v, Vertex<V> u);
-    int[] endVertices(Edge<E> e);
+    Edge<E> getEdge(Vertex<V> u, Vertex<V> v);
+    Vertex<V>[] endVertices(Edge<E> e);
     Vertex<V> opposite(Vertex<V> v, Edge<E> e);
     int outDegree(Vertex<V> v);
     int inDegree(Vertex<V> v);
@@ -24,5 +24,5 @@ public interface GraphInterface<E,V> {
 //    void insertVertex(E x);
     void insertEdge(Vertex<V> u, Vertex<V> v, E x);
 //    void removeVertex(Vertex<V> v);
-    void removeEdge(Vertex<V> e);
+    void removeEdge(Edge<E> e);
 }

@@ -8,32 +8,41 @@ Tham khảo các phương thức trong slide bài giảng hoặc sách M.Goodric
 618.
  */
 public class Graph<E,V> implements GraphInterface<E,V> {
-    int n;
-    int[][] matrix;
-    String[] vertices;
+    private int n;
+    private Edge<E>[][] matrix;
+    private Vertex<V>[] vertices;
+
+    public Graph(int n, Vertex<V>[] vertices) {
+        this.n = n;
+        this.matrix = new Edge[n][n];
+        this.vertices = vertices;
+    }
 
     public Graph(int n) {
         this.n = n;
-        this.matrix = new int[n][n];
-        this.vertices = new String[n];
+        this.matrix = new Edge[n][n];
+        this.vertices = new Vertex[n];
     }
 
     @Override
     public int numVertices() {
         return n;
     }
-
+    private int index = 0;
     @Override
     public Iterator<Vertex<V>> vertices() {
-        return new Iterator<Vertex<V>>() {
+
+        return new Iterator<>() {
             @Override
             public boolean hasNext() {
-                return false;
+                return index + 1 < vertices.length;
             }
 
             @Override
             public Vertex<V> next() {
-                return null;
+                Vertex<V> result = vertices[index];
+                index++;
+                return result;
             }
         };
     }
@@ -43,72 +52,161 @@ public class Graph<E,V> implements GraphInterface<E,V> {
         int count = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] != 0) {
+                if (matrix[i][j] != null) {
                     count++;
                 }
             }
         }
         return count;
     }
-
+    int startEdge = 0;
+    int endEdge = 0;
     @Override
     public Iterator<Edge<E>> edges() {
-        return new Iterator<Edge<E>>() {
+        return new Iterator<>() {
             @Override
             public boolean hasNext() {
-                return false;
+                return startEdge < n && endEdge < n;
             }
 
             @Override
             public Edge<E> next() {
-                return null;
+                if (startEdge > n || endEdge > n) {
+                    return null;
+                }
+                Edge<E> result = matrix[startEdge][endEdge];
+                if (endEdge + 1 > n) {
+                    startEdge++;
+                    endEdge = 0;
+                }
+                else {
+                    endEdge++;
+                }
+                return result;
             }
         };
     }
 
     @Override
-    public Edge<E> getEdge(Vertex<V> v, Vertex<V> u) {
-        return null;
+    public Edge<E> getEdge(Vertex<V> u, Vertex<V> v) {
+        int starting = 0;
+        int ending = 1;
+        for (int i = 0; i < n; i++) {
+            if (u.equals(vertices[i])) {
+                starting = i;
+            }
+            else if (v.equals(vertices[i])) {
+                ending = i;
+            }
+        }
+        return matrix[starting][ending];
     }
 
     @Override
-    public int[] endVertices(Edge<E> e) {
-        return new int[0];
+    public Vertex<V>[] endVertices(Edge<E> e) {
+        Vertex<V>[] result = (Vertex<V>[]) new Object[2] ;
+        result[0] = e.getStartPoint();
+        result[1] = e.getEndPoint();
+        return result;
     }
 
     @Override
     public Vertex<V> opposite(Vertex<V> v, Edge<E> e) {
-        return null;
+        if (!e.getStartPoint().equals(v) && !e.getEndPoint().equals(v)) {
+            return null;
+        }
+        if (e.getStartPoint() != v) {
+            return e.getEndPoint();
+        }
+        return e.getStartPoint();
     }
 
     @Override
     public int outDegree(Vertex<V> v) {
-        return 0;
+        int count = 0;
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            if (v.equals(vertices[i])) {
+                index = i;
+                break;
+            }
+        }
+        for (int j = 0; j < n; j++) {
+            if (matrix[index][j] != null) {
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
     public int inDegree(Vertex<V> v) {
-        return 0;
+        return outDegree(v);
     }
 
     @Override
     public Iterator<Edge<E>> outgoingEdges(Vertex<V> v) {
-        return null;
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            if (v.equals(vertices[i])) {
+                index = i;
+                break;
+            }
+        }
+        int finalIndex = index;
+        return new Iterator<>() {
+            int j = 1;
+            @Override
+            public boolean hasNext() {
+                return j < n;
+            }
+
+            @Override
+            public Edge<E> next() {
+                Edge<E> result = matrix[finalIndex][j];
+                j++;
+                return result;
+            }
+        };
     }
 
     @Override
     public Iterator<Edge<E>> incomingEdges(Vertex<V> v) {
-        return null;
+        return outgoingEdges(v);
     }
 
 
     @Override
     public void insertEdge(Vertex<V> u, Vertex<V> v, E x) {
-
+        int starting = 0;
+        int ending = 1;
+        for (int i = 0; i < n; i++) {
+            if (u.equals(vertices[i])) {
+                starting = i;
+            }
+            else if (v.equals(vertices[i])) {
+                ending = i;
+            }
+        }
+        if (matrix[starting][ending] == null) {
+            matrix[starting][ending] = new Edge<>(x,u,v);
+        }
     }
 
     @Override
-    public void removeEdge(Vertex<V> e) {
-
+    public void removeEdge(Edge<E> e) {
+        Vertex<V> start = e.getStartPoint();
+        Vertex<V> end = e.getEndPoint();
+        int starting = 0;
+        int ending = 1;
+        for (int i = 0; i < n; i++) {
+            if (start.equals(vertices[i])) {
+                starting = i;
+            }
+            else if (end.equals(vertices[i])) {
+                ending = i;
+            }
+        }
+        matrix[starting][ending] = null;
     }
 }

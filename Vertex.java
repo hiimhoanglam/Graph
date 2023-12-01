@@ -9,4 +9,8 @@ public class Vertex<V> {
     public V getElement() {
         return element;
     }
+
+    public Vertex(V element) {
+        this.element = element;
+    }
 }

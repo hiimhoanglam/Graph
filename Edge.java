@@ -6,7 +6,24 @@ Tham khảo các phương thức trong slide bài giảng hoặc sách M.Goodric
  */
 public class Edge<E> {
     E element;
+    Vertex startPoint;
+    Vertex endPoint;
+
+    public Edge(E element, Vertex startPoint, Vertex endPoint) {
+        this.element = element;
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
+
     public E getElement() {
         return element;
+    }
+
+    public <V> Vertex<V> getStartPoint() {
+        return (Vertex<V>) startPoint;
+    }
+
+    public <V> Vertex<V> getEndPoint() {
+        return (Vertex<V>) endPoint;
     }
 }
