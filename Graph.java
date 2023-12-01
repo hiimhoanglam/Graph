@@ -8,25 +8,62 @@ Tham khảo các phương thức trong slide bài giảng hoặc sách M.Goodric
 618.
  */
 public class Graph<E,V> implements GraphInterface<E,V> {
-    int[][] matrix = new int[0][0];
+    int n;
+    int[][] matrix;
+    String[] vertices;
+
+    public Graph(int n) {
+        this.n = n;
+        this.matrix = new int[n][n];
+        this.vertices = new String[n];
+    }
+
     @Override
     public int numVertices() {
-        return 0;
+        return n;
     }
 
     @Override
     public Iterator<Vertex<V>> vertices() {
-        return null;
+        return new Iterator<Vertex<V>>() {
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public Vertex<V> next() {
+                return null;
+            }
+        };
     }
 
     @Override
     public int numEdges() {
-        return 0;
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] != 0) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     @Override
     public Iterator<Edge<E>> edges() {
-        return null;
+        return new Iterator<Edge<E>>() {
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public Edge<E> next() {
+                return null;
+            }
+        };
     }
 
     @Override
@@ -64,18 +101,9 @@ public class Graph<E,V> implements GraphInterface<E,V> {
         return null;
     }
 
-    @Override
-    public void insertVertex(E x) {
-
-    }
 
     @Override
     public void insertEdge(Vertex<V> u, Vertex<V> v, E x) {
-
-    }
-
-    @Override
-    public void removeVertex(Vertex<V> v) {
 
     }
 
