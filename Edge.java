@@ -4,5 +4,9 @@ Tạo giao diện và cài đặt kiểu dữ liệu đồ thị vô hướng kh
 Tham khảo các phương thức trong slide bài giảng hoặc sách M.Goodrich, tiểu mục 14.1.1, trang
 618.
  */
-public class Edge<V> {
+public class Edge<E> {
+    E element;
+    public E getElement() {
+        return element;
+    }
 }

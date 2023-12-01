@@ -5,4 +5,8 @@ Tham khảo các phương thức trong slide bài giảng hoặc sách M.Goodric
 618.
  */
 public class Vertex<V> {
+    V element;
+    public V getElement() {
+        return element;
+    }
 }
