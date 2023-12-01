@@ -8,6 +8,7 @@ Tham khảo các phương thức trong slide bài giảng hoặc sách M.Goodric
 618.
  */
 public class Graph<E,V> implements GraphInterface<E,V> {
+    int[][] matrix = new int[0][0];
     @Override
     public int numVertices() {
         return 0;
