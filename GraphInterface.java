@@ -18,8 +18,11 @@ public interface GraphInterface<E,V> {
     int inDegree(Vertex<V> v);
     Iterator<Edge<E>> outgoingEdges(Vertex<V> v);
     Iterator<Edge<E>> incomingEdges(Vertex<V> v);
-    void insertVertex(E x);
+    /*
+    Remove inserting and removing edge for the sake of simplicity
+     */
+//    void insertVertex(E x);
     void insertEdge(Vertex<V> u, Vertex<V> v, E x);
-    void removeVertex(Vertex<V> v);
+//    void removeVertex(Vertex<V> v);
     void removeEdge(Vertex<V> e);
 }
